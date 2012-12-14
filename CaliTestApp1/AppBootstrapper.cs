@@ -36,10 +36,7 @@ namespace CaliTestApp1
 		{
 			string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
 			var exports = container.GetExportedValues<object>(contract);
-
-			if (exports.Count() > 0)
-				return exports.First();
-
+			if (exports.Any()) return exports.First();
 			throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
 		}
 
