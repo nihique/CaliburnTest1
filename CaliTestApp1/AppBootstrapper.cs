@@ -1,3 +1,5 @@
+using CaliTestApp1.Views;
+
 namespace CaliTestApp1
 {
 	using System;
