@@ -15,7 +15,18 @@ namespace CaliTestApp1.Views
             {
                 _count = value;
                 NotifyOfPropertyChange(() => Count);
+                NotifyOfPropertyChange(() => CanChangeCount);
             }
+        }
+
+        public void ChangeCount(int delta)
+        {
+            Count = Count + delta;
+        }
+
+        public bool CanChangeCount
+        {
+            get { return Count < 100; }
         }
     }
 }
