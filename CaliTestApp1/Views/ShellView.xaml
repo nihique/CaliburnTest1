@@ -8,12 +8,13 @@
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
         </Grid.Background>
-        <RepeatButton Content="And then we doubled it! (Jay Wilson)" VerticalAlignment="Top" Margin="10,10,10,0" cal:Message.Attach="ChangeCount(+Count.Text)" />
-        <RepeatButton Content="+2" VerticalAlignment="Top" Margin="10,40,10,0" cal:Message.Attach="ChangeCount(2)" />
-        <RepeatButton Content="+1" VerticalAlignment="Top" Margin="10,70,10,0" cal:Message.Attach="ChangeCount(1)" />
-        <RepeatButton Content="-1" VerticalAlignment="Top" Margin="10,100,10,0" cal:Message.Attach="ChangeCount((-1))" />
-        <RepeatButton Content="-2" VerticalAlignment="Top" Margin="10,130,10,0" cal:Message.Attach="ChangeCount(-2)" />
-        <RepeatButton Content="I will cut you to two pieces!" VerticalAlignment="Top" Margin="10,160,10,0" cal:Message.Attach="ChangeCount(-Count.Text)" />
+        <RepeatButton Content="&quot;And then we doubled it!&quot; (c) 2012 Jay Wilson" VerticalAlignment="Top" Margin="10,10,10,0" cal:Message.Attach="IncrementCount(Count.Text)" />
+        <RepeatButton Content="+2" VerticalAlignment="Top" Margin="10,40,10,0" cal:Message.Attach="IncrementCount(2)" />
+        <RepeatButton Content="+1" VerticalAlignment="Top" Margin="10,70,10,0" cal:Message.Attach="IncrementCount(1)" />
+        <RepeatButton Content="-1" VerticalAlignment="Top" Margin="10,100,10,0" cal:Message.Attach="DecrementCount(1)" />
+        <RepeatButton Content="-2" VerticalAlignment="Top" Margin="10,130,10,0" cal:Message.Attach="DecrementCount(2)" />
+        <RepeatButton Content="&quot;I will cut you to pieces!&quot;" VerticalAlignment="Top" Margin="10,160,10,0" cal:Message.Attach="DecrementCount(Count.Text)" />
+        <RepeatButton Content="+Random Async (try to trigger me again before I end!)" VerticalAlignment="Top" Margin="10,190,10,0" cal:Message.Attach="IncrementCountAsync" />
         <TextBlock x:Name="Count" Text="50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
     </Grid>
 

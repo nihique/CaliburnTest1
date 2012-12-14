@@ -1,3 +1,4 @@
+using CaliTestApp1.Utils;
 using CaliTestApp1.Views;
 
 namespace CaliTestApp1
@@ -32,6 +33,8 @@ namespace CaliTestApp1
 		    batch.AddExportedValue(catalog);
 
 			_container.Compose(batch);
+
+            AsyncAwaitSupport.Hook();
 		}
 
 		protected override object GetInstance(Type serviceType, string key)

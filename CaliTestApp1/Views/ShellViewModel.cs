@@ -1,4 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using CaliTestApp1.Utils;
 using Caliburn.Micro;
 
 namespace CaliTestApp1.Views 
@@ -6,7 +12,7 @@ namespace CaliTestApp1.Views
     [Export(typeof(ShellViewModel))]
     public class ShellViewModel : PropertyChangedBase
     {
-        private int _count = 50;
+        private int _count = 5;
 
         public int Count
         {
@@ -15,18 +21,41 @@ namespace CaliTestApp1.Views
             {
                 _count = value;
                 NotifyOfPropertyChange(() => Count);
-                NotifyOfPropertyChange(() => CanChangeCount);
+                NotifyOfPropertyChange(() => CanIncrementCount);
+                NotifyOfPropertyChange(() => CanDecrementCount);
             }
         }
 
-        public void ChangeCount(int delta)
+        public bool CanDecrementCount
         {
-            Count = Count + delta;
+            get { return Count > 0; }
         }
-
-        public bool CanChangeCount
+        public bool CanIncrementCount
         {
             get { return Count < 100; }
+        }
+
+        public void IncrementCount(int delta)
+        {
+            Count += delta;
+        }
+
+        public void DecrementCount(int delta)
+        {
+            Count -= delta;
+        }
+
+        public IEnumerable<IResult> IncrementCountAsync()
+        {
+            IncrementCount(1);
+            for (int i = 0; i < 19; i++)
+            {
+                yield return new ExecuteInBackground(() =>
+                {
+                    Thread.Sleep(200); 
+                    IncrementCount(1);
+                }); 
+            }
         }
     }
 }
