@@ -10,9 +10,9 @@ namespace CaliTestApp1
 	using System.Linq;
 	using Caliburn.Micro;
 
-	public class AppBootstrapper : Bootstrapper<IShell>
+	public class AppBootstrapper : Bootstrapper<ShellViewModel>
 	{
-		CompositionContainer container;
+		CompositionContainer _container;
 
 		/// <summary>
 		/// By default, we are configured to use MEF
@@ -22,34 +22,34 @@ namespace CaliTestApp1
 		        AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).OfType<ComposablePartCatalog>()
 		        );
 
-			container = new CompositionContainer(catalog);
+			_container = new CompositionContainer(catalog);
 
 			var batch = new CompositionBatch();
 
 			batch.AddExportedValue<IWindowManager>(new WindowManager());
 			batch.AddExportedValue<IEventAggregator>(new EventAggregator());
-			batch.AddExportedValue(container);
+			batch.AddExportedValue(_container);
 		    batch.AddExportedValue(catalog);
 
-			container.Compose(batch);
+			_container.Compose(batch);
 		}
 
 		protected override object GetInstance(Type serviceType, string key)
 		{
 			string contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
-			var exports = container.GetExportedValues<object>(contract);
-			if (exports.Any()) return exports.First();
+		    var export = _container.GetExportedValues<object>(contract).FirstOrDefault();
+			if (export != null) return export;
 			throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
 		}
 
 		protected override IEnumerable<object> GetAllInstances(Type serviceType)
 		{
-			return container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
+			return _container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
 		}
 
 		protected override void BuildUp(object instance)
 		{
-			container.SatisfyImportsOnce(instance);
+			_container.SatisfyImportsOnce(instance);
 		}
 	}
 }
